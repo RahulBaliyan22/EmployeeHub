@@ -5,8 +5,8 @@
 <div class="container mt-5">
   <%- include("../flash")%>
   <h2 class="text-center mb-4">Login to Your Account</h2>
-<form action="/login" method="POST">
-  <div class="form-group m-3 d-flex justify-content-center align-items-center">
+<form action="/login" method="POST" class="needs-validation" novalidate>
+  <div class="form-group m-3 d-flex justify-content-center align-items-center" >
     <label for="username" class="me-3">UserName:</label>
     <input type="text" id="username" name="username" class="form-control w-50" placeholder="Enter your username" required>
   </div>
@@ -25,4 +25,5 @@
   <p>Don't have an account? <a href="/signup">Sign up here</a></p>
 </div>
 </div>
+
 <%- include('../partials/footer')%>
