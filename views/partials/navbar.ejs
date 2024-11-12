@@ -1,0 +1,19 @@
+<nav class="navbar d-flex justify-content-around w-100 navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <div class="d-flex justify-content-around w-100">
+          <a class="nav-link active" aria-current="page" href="/employee/<%= currentUser._id %>">Home</a>
+          <a class="nav-link" href="/employees">Employees List</a>
+          <% if (currentUser) { %>
+              <span class="nav-link"><%= currentUser.username %> -</span>
+            </li>
+          <% } else { %>
+              <span class="nav-link">No user present -</span>
+          <% } %>
+          <a class="nav-link" title="Logout" href="/logout"> Logout
+          </a>
+        </div>
+    </div>
+  </div>
+</nav>
+<%- include("../flash") %>

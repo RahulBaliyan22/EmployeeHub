@@ -1,0 +1,122 @@
+<%- include("../partials/header") %> <%- include("../partials/navbar") %>
+<div class="bg-warning">
+  <h6 class="ms-2">Employee List</h6>
+</div>
+<div class="container">
+  <div class="d-flex justify-content-end m-5"><span class="me-3">Total Employees: <%=totalEmployees %></span>
+    <a class=" btn btn-success" href="/employee/new">Create Employee</a></div>
+    <div class="d-flex justify-content-evenly m-5" >
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Custom Sorting
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/employees?sort=name">Name</a></li>
+          <li><a class="dropdown-item" href="/employees?sort=email">Email</a></li>
+          <li><a class="dropdown-item" href="/employees">ID</a></li>
+          <li><a class="dropdown-item" href="/employees?sort=date">Date</a></li>
+        </ul>
+      </div>
+      <form action="/employees" method="GET" class="d-flex justify-content-end" role="search">
+        <button class="btn btn-outline-success me-2" type="submit">Search</button>
+        <input class="form-control " type="search" placeholder="Enter Search Keyword" aria-label="Search" name="search">
+      </form>
+    </div>
+      
+   
+ 
+    <% if (employees.length > 0) { %> 
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Unique_Id</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile No.</th>
+        <th>Designation</th>
+        <th>Gender</th>
+        <th>Course</th>
+        <th>Create Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(let employee of employees) { %>
+      <tr>
+        <td><%= employee.unique_Id %></td>
+        <td>
+          <img
+            src="<%=employee.image%>"
+            alt="Employee Image"
+            width="50"
+            height="50"
+          />
+        </td>
+        <td><%= employee.name %></td>
+        <td><%= employee.email %></td>
+        <td><%= employee.mobile %></td>
+        <td><%= employee.designation %></td>
+        <td><%= employee.gender %></td>
+        <td>
+          <%= Array.isArray(employee.course) ? employee.course.join(', ') :
+          employee.course %>
+        </td>
+        <td><%= employee.createdAt.toDateString() %></td>
+        <td>
+          <div class="d-flex">
+            <a
+              href="/employee/<%= employee._id %>/edit"
+              class="btn btn-sm btn-warning me-1"
+              >Edit</a
+            >
+            <form
+              action="/employee/<%= employee._id %>?_method=DELETE"
+              method="POST"
+              style="display: inline"
+            >
+              <button type="submit" class="btn btn-sm btn-danger">
+                Delete
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <% } else { %>
+    <p>No employees found.</p>
+  <% } %>
+
+  
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="/employees?page=<%= currentPage - 1 %>&sort=<%= sort || '' %>&search=<%= search || '' %>" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      <% } %>
+  
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+          <a class="page-link" href="/employees?page=<%= i %>&sort=<%= sort || '' %>&search=<%= search || '' %>"><%= i %></a>
+        </li>
+      <% } %>
+  
+      <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="/employees?page=<%= currentPage + 1 %>&sort=<%= sort || '' %>&search=<%= search || '' %>" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+  
+</div>
+
+<%- include("../partials/footer") %>
